@@ -24,25 +24,22 @@ class Logger:
         root_logger.setLevel(config.log_level)
 
     @staticmethod
-    def info(message: str, extra: Dict = None):
-        extra_str = f", extra: {[f'{key}:{str(item)}' for item, key in enumerate(extra)]}" if extra is not None else ""
-        logging.info(f"{message}{extra_str}")
+    def _extract_extra_string(extra):
+        return f", extra: {[f'{key}:{str(item)}' for key, item in extra.items()]}" if extra is not None else ""
 
-    @staticmethod
-    def debug(message: str, extra: Dict = None):
-        extra_str = f", extra: {[f'{key}:{str(item)}' for item, key in enumerate(extra)]}" if extra is not None else ""
-        logging.debug(f"{message}{extra_str}")
+    def info(self, message: str, extra: Dict = None):
+        logging.info(f"{message}{self._extract_extra_string(extra)}")
 
-    @staticmethod
-    def warning(message: str, extra: Dict = None):
-        extra_str = f", extra: {[f'{key}:{str(item)}' for item, key in enumerate(extra)]}" if extra is not None else ""
-        logging.warning(f"{message}{extra_str}")
+    def debug(self, message: str, extra: Dict = None):
+        logging.debug(f"{message}{self._extract_extra_string(extra)}")
+
+    def warning(self, message: str, extra: Dict = None):
+        logging.warning(f"{message}{self._extract_extra_string(extra)}")
 
     def error(self, message: str, extra: Dict = None):
-        extra_str = f", extra: {[f'{key}:{str(item)}' for item, key in enumerate(extra)]}" if extra is not None else ""
-        for handler in self.error_handlers or None:
+        for handler in self.error_handlers or []:
             handler.handle(message, extra=extra)
-        logging.error(f"{message}{extra_str}")
+        logging.error(f"{message}{self._extract_extra_string(extra)}")
 
 
 logger = Logger()
