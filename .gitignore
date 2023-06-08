@@ -1,6 +1,6 @@
 .idea
 .venv
 log.txt
-tmp.txt
+tmp.*
 test.*
 __pycache__/

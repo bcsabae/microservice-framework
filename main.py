@@ -5,6 +5,7 @@ import flask
 from src.app import App
 from src.trigger.http_trigger import HttpTrigger
 from src.log.log import logger
+from src.amqp.model.message import CustomMessage
 
 
 def hello_callback():
@@ -17,6 +18,11 @@ def post_callback(body):
     return flask.jsonify(body)
 
 
+class TestMessage(CustomMessage):
+    key1: str
+    key2: str
+
+
 if __name__ == '__main__':
     post_callback.methods = ["POST"]
 
@@ -27,6 +33,8 @@ if __name__ == '__main__':
 
     amqp_triggers = []
 
-    app = App(triggers=http_triggers+amqp_triggers)
-
+    app = App(
+        triggers=http_triggers+amqp_triggers,
+        message_types=[TestMessage]
+    )
     app.run()
