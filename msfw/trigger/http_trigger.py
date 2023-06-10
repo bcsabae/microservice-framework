@@ -1,5 +1,6 @@
-import msfw.trigger.trigger as trigger
 import flask
+
+import msfw.trigger.trigger as trigger
 
 
 class HttpTrigger(trigger.Trigger):

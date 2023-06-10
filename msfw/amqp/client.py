@@ -1,15 +1,15 @@
+import json
+from typing import List
+
 import pika
+import pika.exceptions
 import pydantic
 
+import msfw.amqp.handler as handler
+import msfw.amqp.model.factory as factory
+import msfw.amqp.model.message as message
 from msfw.config.config import config
 from msfw.log.log import logger
-import threading
-from typing import Dict, List
-import json
-import msfw.amqp.model.message as message
-import pika.exceptions
-import msfw.amqp.model.factory as factory
-import msfw.amqp.handler as handler
 
 
 class RabbitMQClient:

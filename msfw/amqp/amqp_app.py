@@ -1,13 +1,11 @@
+import traceback
 from typing import List
 
 import msfw.amqp.client as client
-from msfw.log.log import logger
-
-import msfw.trigger.amqp_trigger as amqp_trigger
 import msfw.amqp.handler as handler
 import msfw.amqp.model.message as message
-
-import traceback
+import msfw.trigger.amqp_trigger as amqp_trigger
+from msfw.log.log import logger
 
 
 class AmqpApp:

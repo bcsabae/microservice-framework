@@ -1,7 +1,5 @@
 from typing import List, Dict
 
-from msfw.log.log import logger
-
 
 class MessageClassNotFound(Exception):
     def __init__(self, name: str):

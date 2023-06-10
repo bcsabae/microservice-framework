@@ -1,8 +1,9 @@
-import msfw.http.http_app as http_app
-import msfw.amqp.amqp_app as amqp_app
-import msfw.trigger.http_trigger as http_trigger
-import msfw.trigger.amqp_trigger as amqp_trigger
 import threading
+
+import msfw.amqp.amqp_app as amqp_app
+import msfw.http.http_app as http_app
+import msfw.trigger.amqp_trigger as amqp_trigger
+import msfw.trigger.http_trigger as http_trigger
 from msfw.log.log import logger
 
 

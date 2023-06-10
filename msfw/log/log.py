@@ -1,8 +1,9 @@
 import logging
 import logging.config
-from typing import Dict, List
-from msfw.config.config import config
 import sys
+from typing import Dict, List
+
+from msfw.config.config import config
 
 
 class Logger:
