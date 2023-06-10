@@ -1,4 +1,4 @@
-import src.trigger.trigger as trigger
+import msfw.trigger.trigger as trigger
 
 
 class AmqpTrigger(trigger.Trigger):

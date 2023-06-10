@@ -1,15 +1,15 @@
 import pika
 import pydantic
 
-from src.config.config import config
-from src.log.log import logger
+from msfw.config.config import config
+from msfw.log.log import logger
 import threading
 from typing import Dict, List
 import json
-import src.amqp.model.message as message
+import msfw.amqp.model.message as message
 import pika.exceptions
-import src.amqp.model.factory as factory
-import src.amqp.handler as handler
+import msfw.amqp.model.factory as factory
+import msfw.amqp.handler as handler
 
 
 class RabbitMQClient:
@@ -81,6 +81,12 @@ class RabbitMQClient:
             })
         except ValueError as e:
             logger.error("Failed to parse message", extra={
+                'exception': str(e),
+                'body': parsed_body
+            })
+            return
+        except factory.MessageClassNotFound as e:
+            logger.error(f"Failed to instantiate message", extra={
                 'exception': str(e),
                 'body': parsed_body
             })

@@ -2,11 +2,11 @@ import sys
 
 import flask
 
-from src.app import App
-from src.trigger.http_trigger import HttpTrigger
-from src.trigger.amqp_trigger import AmqpTrigger
-from src.log.log import logger
-from src.amqp.model.message import CustomMessage
+from msfw.app import App
+from msfw.trigger.http_trigger import HttpTrigger
+from msfw.trigger.amqp_trigger import AmqpTrigger
+from msfw.log.log import logger
+from msfw.amqp.model.message import CustomMessage
 
 
 def hello_callback():
@@ -25,7 +25,6 @@ def amqp_callback(message):
     logger.info(f"Now in AMQP callback, got {message_type} message from {source}", extra={
         "message": str(message)
     })
-    raise NotImplementedError
 
 
 class TestMessage(CustomMessage):
@@ -47,6 +46,6 @@ if __name__ == '__main__':
 
     app = App(
         triggers=http_triggers+amqp_triggers,
-        is_http_enabled=False
+        is_http_enabled=True
     )
     app.run()

@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from src.log.log import logger
+from msfw.log.log import logger
 
 
 class MessageClassNotFound(Exception):
@@ -22,16 +22,9 @@ class MessageFactory:
         raise MessageClassNotFound(name)
 
     def make_message(self, name: str, obj: Dict):
-        try:
-            cls = self._get_class(name)
-            instance = cls.parse_obj(obj)
-            return instance
-        except MessageClassNotFound as e:
-            logger.error(f"Cannot instantiate message of type {name}: {e}")
-            return None
-        except ValueError as e:
-            logger.error(f"Cannot instantiate message of type {name}: {e}", extra=obj)
-            return None
+        cls = self._get_class(name)
+        instance = cls.parse_obj(obj)
+        return instance
 
 
 factory = MessageFactory([])

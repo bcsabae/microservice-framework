@@ -1,7 +1,7 @@
 import logging
 import logging.config
 from typing import Dict, List
-from src.config.config import config
+from msfw.config.config import config
 import sys
 
 

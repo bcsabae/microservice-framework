@@ -1,8 +1,8 @@
 from typing import List
 
-import src.amqp.model.message as message
-import src.trigger.amqp_trigger as amqp_trigger
-from src.log.log import logger
+import msfw.amqp.model.message as message
+import msfw.trigger.amqp_trigger as amqp_trigger
+from msfw.log.log import logger
 
 
 class AmqpMessageHandler:

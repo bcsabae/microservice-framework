@@ -16,3 +16,5 @@ class CustomMessage(pydantic.BaseModel):
         return str(self.dict())
 
 
+class AmqpHealthCheckMessage(CustomMessage):
+    pass
