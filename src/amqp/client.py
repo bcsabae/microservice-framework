@@ -9,18 +9,19 @@ import json
 import src.amqp.model.message as message
 import pika.exceptions
 import src.amqp.model.factory as factory
+import src.amqp.handler as handler
 
 
 class RabbitMQClient:
-    def __init__(self):
+    message_handler: handler.AmqpMessageHandler
+
+    def __init__(self, message_handler: handler.AmqpMessageHandler):
         self.connection = None
         self.channel = None
         self.host = config.message_broker_host
         self.queue = config.message_broker_queue
         self.routing_key = config.app_name
-        self.handlers = {
-            "default": None
-        }
+        RabbitMQClient.message_handler = message_handler
         self.receiver_thread = None
         self.message_classes = []
         self.message_factory = factory.MessageFactory(self.message_classes)
@@ -90,6 +91,7 @@ class RabbitMQClient:
             return
         logger.info(f"Handling message {incoming_message.type}: {incoming_message.body}")
         logger.info(f"Instantiated message of type {parsed_message.__class__.__name__}", extra=parsed_message.dict())
+        RabbitMQClient.message_handler.handle(parsed_message)
 
     def send(self, body):
         if isinstance(body, pydantic.BaseModel):

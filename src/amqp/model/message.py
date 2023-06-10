@@ -12,4 +12,7 @@ class Message(pydantic.BaseModel):
 class CustomMessage(pydantic.BaseModel):
     source: str
 
+    def __str__(self):
+        return str(self.dict())
+
 

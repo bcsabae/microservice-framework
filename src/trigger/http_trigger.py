@@ -8,7 +8,7 @@ class HttpTrigger(trigger.Trigger):
         self.route = route
         self.method = method
 
-    def execute(self):
+    def execute(self, **kwargs):
         request = flask.request
         args = None
         if request.method == "GET":
