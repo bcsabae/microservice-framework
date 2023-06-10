@@ -10,4 +10,3 @@ class AmqpTrigger(trigger.Trigger):
         if "message" not in kwargs:
             raise trigger.MissingArgumentError("message")
         self.callback(kwargs["message"])
-

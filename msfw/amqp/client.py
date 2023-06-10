@@ -99,4 +99,3 @@ class RabbitMQClient:
         if isinstance(body, pydantic.BaseModel):
             body = body.dict()
         self.channel.basic_publish(exchange='', routing_key=self.routing_key, body=str(body))
-
