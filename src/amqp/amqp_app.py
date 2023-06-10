@@ -6,6 +6,8 @@ from src.log.log import logger
 import src.trigger.amqp_trigger as amqp_trigger
 import src.amqp.handler as handler
 
+import traceback
+
 
 class AmqpApp:
     def __init__(self, triggers: List[amqp_trigger.AmqpTrigger]):
@@ -15,7 +17,13 @@ class AmqpApp:
         self.client.register_message_classes(message_types)
 
     def run(self):
-        logger.info("Starting Aqmp App...")
-        if not self.client.connect():
+        try:
+            logger.info("Starting Aqmp App...")
+            if not self.client.connect():
+                return
+            self.client.receive()
+        except Exception:
+            logger.error(f"Unhandled exception occurred", extra={"traceback": traceback.format_exc()})
+            logger.info("Disconnecting client")
+            self.client.disconnect()
             return
-        self.client._receive()

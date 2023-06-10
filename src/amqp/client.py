@@ -55,14 +55,10 @@ class RabbitMQClient:
     def disconnect(self):
         self.connection.close()
 
-    def _receive(self):
+    def receive(self):
         self.channel.basic_consume(queue=self.queue, on_message_callback=self._incoming_message_callback, auto_ack=True)
         logger.info(f"Start listening on queue {self.queue}...")
         self.channel.start_consuming()
-
-    def setup_receiver(self, listeners: Dict):
-        self.receiver_thread = threading.Thread(target=self._receive)
-        self.receiver_thread.start()
 
     @staticmethod
     def _incoming_message_callback(ch, method, properties, body):

@@ -25,6 +25,7 @@ def amqp_callback(message):
     logger.info(f"Now in AMQP callback, got {message_type} message from {source}", extra={
         "message": str(message)
     })
+    raise NotImplementedError
 
 
 class TestMessage(CustomMessage):
