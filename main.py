@@ -9,6 +9,8 @@ from msfw.log.log import logger
 from msfw.amqp.model.message import CustomMessage
 import pydantic
 
+from msfw.trigger.timer_trigger import TimerTrigger
+
 
 def hello_callback():
     logger.info("Now in hello")
@@ -27,6 +29,10 @@ def amqp_callback(message):
         "message": str(message)
     })
     logger.info(f"Content: {message.data}, {type(message.data)}")
+
+
+def timer_callback():
+    logger.info("Hello world from timer trigger")
 
 
 class CustomDataType(pydantic.BaseModel):
@@ -52,8 +58,14 @@ if __name__ == '__main__':
         AmqpTrigger(TestMessage, amqp_callback)
     ]
 
+    timer_triggers = [
+        TimerTrigger(timer_callback, 5)
+    ]
+
     app = App(
-        triggers=http_triggers+amqp_triggers,
-        is_http_enabled=True
+        triggers=http_triggers+amqp_triggers+timer_triggers,
+        is_http_enabled=False,
+        is_amqp_enabled=False,
+        is_timer_enabled=True
     )
     app.run()

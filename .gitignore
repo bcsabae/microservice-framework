@@ -4,3 +4,4 @@ log.txt
 tmp.*
 test.*
 __pycache__/
+**.egg-info/
