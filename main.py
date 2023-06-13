@@ -64,8 +64,8 @@ if __name__ == '__main__':
 
     app = App(
         triggers=http_triggers+amqp_triggers+timer_triggers,
-        is_http_enabled=False,
-        is_amqp_enabled=False,
+        is_http_enabled=True,
+        is_amqp_enabled=True,
         is_timer_enabled=True
     )
     app.run()

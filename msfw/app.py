@@ -37,10 +37,6 @@ class App:
             self.amqp_thread.start()
 
         try:
-            if self._http_flag:
-                self.http_thread.join()
-            if self._amqp_flag:
-                self.amqp_thread.join()
             if self._timer_flag:
                 self.timer.run()
             while (self.http_thread.is_alive() if self._http_flag else False) or \

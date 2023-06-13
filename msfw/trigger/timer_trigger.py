@@ -29,7 +29,8 @@ class TimerTrigger(trigger.Trigger):
 
     def stop(self):
         logger.info(f"Stopping periodic execution of {self.callback.__name__}")
-        self._timer_thread.cancel()
+        if self._timer_thread is not None and self.is_waiting():
+            self._timer_thread.cancel()
 
     def is_waiting(self):
         return self._timer_thread.is_alive()
