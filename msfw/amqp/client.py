@@ -10,6 +10,7 @@ import msfw.amqp.model.factory as factory
 import msfw.amqp.model.message as message
 from msfw.config.config import config
 from msfw.log.log import logger
+import time
 
 
 class RabbitMQClient:
@@ -99,3 +100,27 @@ class RabbitMQClient:
         if isinstance(body, pydantic.BaseModel):
             body = body.dict()
         self.channel.basic_publish(exchange='', routing_key=self.routing_key, body=str(body))
+
+    @staticmethod
+    def send_message(body):
+        routing_key = config.app_name
+        try:
+            connection = pika.BlockingConnection(
+                pika.ConnectionParameters(host=config.message_broker_host)
+            )
+        except pika.exceptions.AMQPConnectionError as e:
+            logger.error("Cannot establish connection", extra={
+                "exception": str(e),
+                "host": config.message_broker_host
+            })
+            return False
+        except Exception as e:
+            logger.error("An error occured while attempting connection to AMQP host", extra={
+                "exception": str(e),
+                "host": config.message_broker_host
+            })
+            return False
+        channel = connection.channel()
+        channel.queue_declare(queue=config.message_broker_queue)
+        channel.basic_publish(exchange='', routing_key=config.message_broker_queue, body=body)
+        connection.close()
